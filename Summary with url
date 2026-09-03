@@ -1,0 +1,115 @@
+TRUSTSHIELD AI — Customer Manipulation Pre-Dispatch Defense
+Live Working Application: https://trustshield-ai-618809265776.asia-southeast1.run.app/
+Synthetic customer manipulation detection and financial protection system preventing social-engineering coercion before payment dispatch.
+
+
+1. Executive Summary & Problem Statement
+Traditional fraud monitoring systems evaluate transactions post-authorization or rely solely on credential theft / unauthorized access indicators (e.g., ATO, stolen card numbers, brute force).
+However, modern financial fraud has evolved into Authorized Push Payment (APP) scams and coercive social engineering (e.g., Fake Police/CBI Digital Arrest, Account-Freeze Threats, KYC Extortion, Screen-Share Remote Access). In these attacks:
+The customer is authorized and uses their legitimate credentials, device, and biometrics.
+The customer is under intense psychological coercion, fear, or urgency.
+Money is pushed directly by the customer into mule accounts within seconds, making fund recovery nearly impossible once dispatched.
+TRUSTSHIELD AI acts as a pre-dispatch circuit breaker. By evaluating behavioral anomalies, active call/screen-share telemetry, sudden beneficiary addition velocity, and biometric hesitation before funds leave the bank, TRUSTSHIELD intervenes non-custodially, pausing high-risk transactions and neutralizing coercive control.
+
+
+
+2. System Architecture
+TRUSTSHIELD is engineered with a clean layered architecture separating deterministic fraud rules from probabilistic AI explanations.
+┌────────────────────────────────────────────────────────────────────────┐
+│                          PRESENTATION LAYER                            │
+│                                                                        │
+│   ┌─────────────────────┐ ┌──────────────────────┐ ┌────────────────┐  │
+│   │   Customer Portal   │ │   Security Command   │ │  Red-Team Lab  │  │
+│   │   (User Simulation) │ │   (Analyst Console)  │ │  (Attack Sim)  │  │
+│   └──────────┬──────────┘ └──────────┬───────────┘ └───────┬────────┘  │
+└──────────────┼───────────────────────┼─────────────────────┼───────────┘
+               │                       │                     │
+               ▼                       ▼                     ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        API ROUTER & REST SERVER                        │
+│                        (Express + TypeScript)                          │
+│                                                                        │
+│   • POST /api/v1/payments/evaluate     • GET /api/v1/cases             │
+│   • POST /api/v1/cases/:id/transition  • GET /api/v1/graph/network     │
+│   • POST /api/v1/cases/:id/explain     • GET /api/v1/analytics/summary │
+└───────────────────────────────┬────────────────────────────────────────┘
+                                │
+        ┌───────────────────────┴───────────────────────┐
+        ▼                                               ▼
+┌───────────────────────────────┐       ┌────────────────────────────────┐
+│      DETERMINISTIC ENGINE     │       │    AUDIT & EXPLAINABILITY      │
+│     (Strict Rules & Math)     │       │     (Server-Side GenAI)        │
+│                               │       │                                │
+│ • Behavioral Deviation Math   │       │ • Grounded Fact Extraction     │
+│ • Telephony/Screen-Share Sync │       │ • Server-Side Gemini API       │
+│ • Beneficiary Velocity Check  │       │ • Multi-Language Coercion Expl │
+│ • Policy Table (P-CRITICAL-04)│       │ • Zero-Hallucination Guardrail │
+└───────────────┬───────────────┘       └────────────────────────────────┘
+                │
+                ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                       PERSISTENCE & AUDIT LOG                          │
+│                                                                        │
+│  • Immutable Case Records     • State Machine (OPEN ➔ PAUSED ➔ CLOSED) │
+│  • Mule Syndicate Graph       • Analyst Action & Dual-Approval Trail   │
+└────────────────────────────────────────────────────────────────────────┘
+
+
+*Architectural Pillars
+
+Deterministic Risk Core (/src/risk-engine/engine.ts):
+Computes weighted manipulation risk scores (0–100) based strictly on mathematical heuristics, velocity ratios, and telemetry flags.
+Evaluates transparent policy definitions (e.g., P-CRITICAL-04: Pause and Verify, P-WARN-02: Friction Step-Up, P-ALLOW-01: Standard Dispatch).
+Never delegates transaction authorization decisions to unconstrained black-box LLMs.
+Grounded AI Explainability (/src/domain/adapters/ai-explanation-service.ts):
+Uses server-side Gemini models exclusively for translating structured telemetry facts into plain-language case summaries for analysts and calming explanations for stressed customers.
+Strictly bounded by factual evidence payload—prohibits speculative assertions.
+Full-Stack Isolation & Security:
+Client applications never access external AI keys directly.
+Comprehensive backend REST API with TypeScript schemas, input validation via Zod, and full automated contract/unit test coverage.
+
+
+
+
+3. End-to-End Workflow
+
+Customer Initiates Payment (e.g., ₹75,000 via UPI)
+                       │
+                       ▼
+         Collect Pre-Dispatch Telemetry
+   [Device ID, Session Duration, Active Call,
+    Screen Share App, Biometric Cadence, Beneficiary Age]
+                       │
+                       ▼
+          Evaluate Deterministic Engine
+  • Unusual amount? (₹75k vs. typical ₹500–₹2k max)  ➔ +30 pts
+  • Active phone call during checkout?               ➔ +20 pts
+  • Screen sharing detected (e.g., AnyDesk/TeamViewer)?➔ +25 pts
+  • Brand-new beneficiary added < 5 min ago?         ➔ +15 pts
+  • Rapid device switch within last 10 minutes?      ➔ +10 pts
+                       │
+                       ▼
+           Calculated Score: 92/100
+                       │
+       ┌───────────────┴───────────────┐
+       ▼                               ▼
+Score < 50: ALLOW             Score >= 70: POLICY P-CRITICAL-04
+[Dispatch Payment]            [INTERCEPT & FREEZE DISPATCH]
+                                       │
+                                       ▼
+                   1. Customer Protection Shield
+                      • Zero money leaves customer's account.
+                      • Calming "De-escalation Modal" activated.
+                      • Coercion questions: "Are you being told your account is frozen?"
+                      • Optional Trusted Contact SMS Alert.
+                                       │
+                                       ▼
+                   2. Real-Time Case Creation
+                      • Immutable audit case generated (`CASE-2026-0915`).
+                      • Logged in Security Analyst Command Center queue.
+                                       │
+                                       ▼
+                   3. Analyst Triaging & Resolution
+                      • Analyst reviews mule syndicate graph & call logs.
+                      • Triggers Gemini AI Plain-English Briefing.
+                      • Takes action: BLOCK_MULE, REFUND_PRESERVED, or RELEASE.
