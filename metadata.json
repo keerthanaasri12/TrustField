@@ -1,0 +1,6 @@
+{
+  "name": "TRUSTSHIELD AI",
+  "description": "Synthetic customer manipulation detection and financial protection system preventing scam coercion before payment dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
